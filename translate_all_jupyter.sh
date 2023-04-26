@@ -32,7 +32,10 @@ find -name "*.ipynb" -not -path "./.venv/*" -not -path "*gr/*"  -not -regex '.*_
         # echo "Translating file: $file"
         # run your code at this point
         ProgressBar "${_start}" "${_end}"
+        gr_dir="$(dirname -- "$(realpath -- "$file")")/gr"
         python jupyter_translate.py "$file" --language 'fr'
+        mkdir -p $gr_dir 
+        mv "$file" $gr_dir
         ((_start += 100 / step))
     done
 
